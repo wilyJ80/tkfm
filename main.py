@@ -4,19 +4,26 @@ from tree import Node
 
 
 class GUI:
-    def __init__(self, root):
-        window = tk.Tk()
-        window.title("tkfm")
+    def __init__(self):
+        self.window = tk.Tk()
+        self.window.title("tkfm")
 
-        treeview = ttk.Treeview()
-        treeview.insert("", tk.END, text=root.data)
+        self.treeview = ttk.Treeview(self.window)
 
-        treeview.pack()
-        window.mainloop()
+    def add_node(self, node):
+        self.treeview.insert("", tk.END, text=node.data)
+
+    def run(self):
+        self.treeview.pack()
+        self.window.mainloop()
 
 
 if __name__ == "__main__":
-    root = Node(4)
-    print(root.data)
+    node_1 = Node(4)
+    node_2 = Node(5)
 
-    GUI(root)
+    gui = GUI()
+    gui.add_node(node_1)
+    gui.add_node(node_2)
+
+    gui.run()
