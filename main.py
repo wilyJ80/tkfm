@@ -9,9 +9,14 @@ class GUI:
         self.window.title("tkfm")
 
         self.treeview = ttk.Treeview(self.window)
+        self.treeview.heading("#0", text="Tree")
 
-    def add_node(self, node):
-        self.treeview.insert("", tk.END, text=node.data)
+    def add_node(self, parent_item, node):
+        item = self.treeview.insert(parent_item, tk.END, text=node.data)
+        if node.left:
+            self.add_node(item, node.left)
+        if node.right:
+            self.add_node(item, node.right)
 
     def run(self):
         self.treeview.pack()
@@ -19,11 +24,15 @@ class GUI:
 
 
 if __name__ == "__main__":
-    node_1 = Node(4)
-    node_2 = Node(5)
+    # Creating a sample binary tree
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.right.left = Node(6)
+    root.right.right = Node(7)
 
     gui = GUI()
-    gui.add_node(node_1)
-    gui.add_node(node_2)
-
+    gui.add_node("", root)
     gui.run()
