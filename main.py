@@ -21,6 +21,10 @@ class GUI:
             self.window, text="Remove Node", command=self.remove_node, state=tk.DISABLED)
         self.remove_button.pack()
 
+        self.add_child_button = tk.Button(
+            self.window, text="Add Child Node", command=self.add_child_node, state=tk.DISABLED)
+        self.add_child_button.pack()
+
         self.treeview.bind("<Button-1>", self.on_click)
 
     def add_node(self, parent_item, node):
