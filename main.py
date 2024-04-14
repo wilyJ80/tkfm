@@ -10,8 +10,8 @@ class GUI:
 
         self.treeview = ttk.Treeview(self.window)
 
-    def add_node(self, node):
-        self.treeview.insert("", tk.END, text=node.data)
+    def add_node(self, nome):
+        self.treeview.insert("", tk.END, text=nome.data)
 
     def run(self):
         self.treeview.pack()
