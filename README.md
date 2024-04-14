@@ -1,7 +1,6 @@
 # Continuar
 
 - [X] Gerar árvore binária aleatória navegável com a interface gráfica em forma de árvore para feedback inicial com o professor.
-- [ ] Início do projeto: gerar árvore binária correspondente a um sistema de arquivos idealizado, navegável.
 - [ ] Suportar criação de arquivos.
 - [ ] Suportar criação de pastas e subpastas.
 - [ ] Suportar remoção.
