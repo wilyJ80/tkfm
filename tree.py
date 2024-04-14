@@ -7,7 +7,7 @@ class Node_diretorio:
 
 class sistema_arquivo:
     def __init__(self):
-        self.raiz_raiz = Node_diretorio
+        #self.raiz_raiz = Node_diretorio
         self.raiz = Node_diretorio('/')
         self.atual = self.raiz
 
@@ -18,6 +18,7 @@ class sistema_arquivo:
         for arquivo in self.atual.arquivos:
             print('arquivo: {}'.format(arquivo))
 
+    # erro no cd.. pois nao volta
     def cd(self, nome):
         if nome == '..':
             if self.atual != self.raiz:
@@ -59,10 +60,11 @@ class sistema_arquivo:
             resultado = self.diretorio_pai(diretorio_atual, subdiretorio)
             if resultado is not None:
                 return resultado
-
         return None
 
 
+
+# Criando pasta mas mudar para outro arquivo para organizar
 sistema = sistema_arquivo()
 docs = Node_diretorio('Documentos')
 img = Node_diretorio('Imagens')
