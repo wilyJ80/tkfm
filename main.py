@@ -63,6 +63,7 @@ class GUI:
         if selected_item:
             self.treeview.delete(selected_item)
             self.remove_button.config(state=tk.DISABLED)
+            self.child_button.config(state=tk.DISABLED)
 
     def run(self):
         self.treeview.pack()
