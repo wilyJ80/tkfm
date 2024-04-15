@@ -7,9 +7,9 @@ class Node_diretorio:
 
 class sistema_arquivo:
     def __init__(self):
-        #self.raiz_raiz = Node_diretorio
         self.raiz = Node_diretorio('/')
         self.atual = self.raiz
+        self.historico = []
 
     def ls(self):
         print('Conteúdo de', self.atual.nome)
@@ -18,11 +18,10 @@ class sistema_arquivo:
         for arquivo in self.atual.arquivos:
             print('arquivo: {}'.format(arquivo))
 
-    # erro no cd.. pois nao volta
     def cd(self, nome):
         if nome == '..':
-            if self.atual != self.raiz:
-                self.atual = self.diretorio_pai(self.atual, self.raiz)
+            if self.historico:
+                self.atual = self.historico.pop()
                 print("Diretório atual depois:", self.atual.nome)
             else:
                 print("Já está no diretório raiz")
@@ -30,14 +29,12 @@ class sistema_arquivo:
             encontrado = False
             for subdiretorio in self.atual.sub_diretorios:
                 if subdiretorio.nome == nome:
-                    print(self.atual)
-                    print(self.raiz)
+                    self.historico.append(self.atual)
                     self.atual = subdiretorio
                     encontrado = True
                     break
             if not encontrado:
                 print('diretório não encontrado')
-
 
     def mkdir(self):
         caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
@@ -49,22 +46,18 @@ class sistema_arquivo:
             self.atual.sub_diretorios.append(novo_diretorio)
             print('Pasta {} criada com sucesso em {}'.format(nome_pasta, self.atual.nome))
 
-    def diretorio_pai(self, diretorio_atual, diretorio_raiz):
-        if diretorio_raiz == diretorio_atual:
-            print(diretorio_raiz)
-            print(diretorio_atual)
-            return diretorio_raiz
-        for subdiretorio in diretorio_raiz.sub_diretorios:
-            if diretorio_atual in subdiretorio.sub_diretorios:
-                return diretorio_raiz
-            resultado = self.diretorio_pai(diretorio_atual, subdiretorio)
+    def diretorio_pai(self, diretorio_atual, diretorio_alvo, pai=None):
+        if diretorio_atual == diretorio_alvo:
+            return pai
+
+        for subdiretorio in diretorio_atual.sub_diretorios:
+            resultado = self.diretorio_pai(subdiretorio, diretorio_alvo, diretorio_atual)
             if resultado is not None:
                 return resultado
+
         return None
 
-
-
-# Criando pasta mas mudar para outro arquivo para organizar
+# Criando diretorio
 sistema = sistema_arquivo()
 docs = Node_diretorio('Documentos')
 img = Node_diretorio('Imagens')
