@@ -21,9 +21,9 @@ class GUI:
             self.window, text="Remove Node", command=self.remove_node, state=tk.DISABLED)
         self.remove_button.pack()
 
-        self.add_child_button = tk.Button(
+        self.child_button = tk.Button(
             self.window, text="Add Child Node", command=self.add_child_node, state=tk.DISABLED)
-        self.add_child_button.pack()
+        self.child_button.pack()
 
         self.treeview.bind("<Button-1>", self.on_click)
 
@@ -51,11 +51,12 @@ class GUI:
     def on_click(self, event):
         item = self.treeview.focus()
         if item:
-            self.add_child_button = tk.Button(
-                self.window, text="Add Child Node", command=lambda: self.add_child_node(item))
-            self.add_child_button.place(x=event.x_root, y=event.y_root)
+            # self.add_child_button = tk.Button(
+            #     self.window, text="Add Child Node", command=lambda: self.add_child_node(item))
+            # self.add_child_button.place(x=event.x_root, y=event.y_root)
 
             self.remove_button.config(state=tk.NORMAL)
+            self.child_button.config(state=tk.NORMAL)
 
     def remove_node(self):
         selected_item = self.treeview.focus()
