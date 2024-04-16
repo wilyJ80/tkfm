@@ -11,7 +11,7 @@ class sistema_arquivo:
     def __init__(self):
         self.raiz = Node_diretorio('/')
         self.atual = self.raiz
-        self.historico = deque()
+        self.historico = []
 
     def ls(self):
         print('Conteúdo de', self.atual.nome)
