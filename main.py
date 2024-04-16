@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog
-from tree import Node
+from tree import Node_diretorio
 
 
 class GUI:
@@ -14,7 +14,7 @@ class GUI:
         self.treeview.heading("#0", text="Tree")
 
         self.add_root_button = tk.Button(
-            self.window, text="Add Root Node", command=self.add_root_node)
+        self.window, text="Add Root Node", command=self.add_root_node)
         self.add_root_button.pack()
 
         self.remove_button = tk.Button(
@@ -34,14 +34,14 @@ class GUI:
         content = simpledialog.askstring(
             "Add Root Node", "Enter the content for the new root node:")
         if content is not None:
-            new_node = Node(content)
+            new_node = Node_diretorio(content)
             self.add_node("", new_node)
 
     def add_child_node(self, item):
         content = simpledialog.askstring(
             "Add Child Node", "Enter the content for the new child node:")
         if content is not None:
-            new_node = Node(content)
+            new_node = Node_diretorio(content)
             self.add_node(item, new_node)
 
     def on_click(self, event):
