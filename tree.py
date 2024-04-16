@@ -11,7 +11,7 @@ class sistema_arquivo:
     def __init__(self):
         self.raiz = Node_diretorio('/')
         self.atual = self.raiz
-        self.historico = []
+        self.historico = deque()
 
     def ls(self):
         print('Conteúdo de', self.atual.nome)
@@ -28,7 +28,16 @@ class sistema_arquivo:
             else:
                 print("Já está no diretório raiz")
         elif nome == '../..':
-            pass
+            if self.historico:
+                self.historico.pop()  
+                if self.historico:
+                    self.atual = self.historico.pop()  
+                    print("Diretório atual depois:", self.atual.nome)
+                else:
+                    self.atual = self.raiz 
+                    print("Diretório atual depois:", self.atual.nome)
+            else:
+                print("Já está no diretório raiz")
         else:
             encontrado = False
             for subdiretorio in self.atual.sub_diretorios:
