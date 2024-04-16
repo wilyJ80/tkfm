@@ -27,6 +27,8 @@ class sistema_arquivo:
                 print("Diretório atual depois:", self.atual.nome)
             else:
                 print("Já está no diretório raiz")
+        elif nome == '../..':
+            pass
         else:
             encontrado = False
             for subdiretorio in self.atual.sub_diretorios:
@@ -47,7 +49,6 @@ class sistema_arquivo:
             self.atual.sub_diretorios.append(novo_diretorio)
             print('Pasta {} criada com sucesso em {}'.format(nome_pasta, self.atual.nome))
 
-    #problema criar com a extensão do arquivo
     def touch(self,nome_arquivo):
         caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '<', '>', '/', '?']
         if any(caracter in nome_arquivo for caracter in caracter_especial):
@@ -59,8 +60,28 @@ class sistema_arquivo:
             else:
                 pass
 
-    def mv(self,nome_arquivo,novo_nome_arquivo):
-        pass
+    def mv(self, nome_origem, novo_nome):
+        encontrado = False
+        for i, arquivo in enumerate(self.atual.arquivos):
+            if arquivo == nome_origem:
+                self.atual.arquivos[i] = novo_nome
+                print('Arquivo {} renomeado para {}'.format(nome_origem, novo_nome))
+                encontrado = True
+                break
+        if not encontrado:
+            print('Arquivo não encontrado: {}'.format(nome_origem))
+
+    def rm(self, nome_arquivo):
+        encontrado = False
+        for arquivo in self.atual.arquivos:
+            if arquivo == nome_arquivo:
+                self.atual.arquivos.remove(arquivo)
+                print('Arquivo {} removido'.format(nome_arquivo))
+                encontrado = True
+                break
+        if not encontrado:
+            print('Arquivo não encontrado: {}'.format(nome_arquivo))
+
 
 
 
@@ -79,7 +100,7 @@ img.arquivos = ['img.txt', 'img2.txt']
 
 if __name__ == "__main__":
     while True:
-        comando = input('Diretorio atual {} Digite o comando: '.format(sistema.atual.nome))
+        comando = input('$ {} '.format(sistema.atual.nome))
         if comando == 'ls':
             sistema.ls()
 
@@ -110,7 +131,14 @@ if __name__ == "__main__":
                 sistema.mv(partes[1].capitalize(), partes[2].capitalize())
                 pass
             else:
-                pass
+                print('Use mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
+
+        elif comando.startswith('rm'):
+            partes = comando.split()
+            if len(partes) == 2:
+                sistema.rm(partes[1].capitalize())
+            else:
+                print('Use rm <nome do arquivo que quer excluir>')
 
         elif comando == 'exit':
             print('Saindo do sistema')

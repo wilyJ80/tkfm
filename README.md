@@ -5,8 +5,8 @@
 - [x] Início do projeto: gerar árvore binária correspondente a um sistema de arquivos idealizado, navegável.
 - [x] Suportar criação de arquivos.
 - [x] Suportar criação de pastas e subpastas.
-- [ ] Suportar remoção.
-- [ ] Suportar funcionalidade de renomear.
+- [x] Suportar remoção.
+- [x] Suportar funcionalidade de renomear.
 - [ ] Salvamento do estado da árvore com sqlite3.
 - [ ] Desfazer / refazer
 
