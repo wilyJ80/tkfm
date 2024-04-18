@@ -22,22 +22,9 @@ class sistema_arquivo:
 
     def cd(self, nome):
         if nome == '..':
-            if self.historico:
-                self.atual = self.historico.pop()
-                print("Diretório atual depois:", self.atual.nome)
-            else:
-                print("Já está no diretório raiz")
+            self.mover_diretorio(1)
         elif nome == '../..':
-            if self.historico:
-                self.historico.pop()  
-                if self.historico:
-                    self.atual = self.historico.pop()  
-                    print("Diretório atual depois:", self.atual.nome)
-                else:
-                    self.atual = self.raiz 
-                    print("Diretório atual depois:", self.atual.nome)
-            else:
-                print("Já está no diretório raiz")
+            self.mover_diretorio(2)
         else:
             encontrado = False
             for subdiretorio in self.atual.sub_diretorios:
@@ -48,6 +35,21 @@ class sistema_arquivo:
                     break
             if not encontrado:
                 print('diretório não encontrado')
+
+    def mover_diretorio(self, nivel):
+        if nivel == 0:
+            return
+        if nivel == 1:
+            if self.historico:
+                self.atual = self.historico.pop()
+            else:
+                print("Já está no diretório raiz")
+        else:
+            if self.historico:
+                self.historico.pop()
+                self.mover_diretorio(nivel - 1)
+            else:
+                print("Já está no diretório raiz")            
 
     def mkdir(self,nome_pasta):
         caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
