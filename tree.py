@@ -93,6 +93,11 @@ class sistema_arquivo:
         if not encontrado:
             print('Arquivo não encontrado: {}'.format(nome_arquivo))
 
+    def arvore(self):
+        print(self.raiz.nome, '/')
+        self.print_arvore(self.raiz)
+    
+
 
 
 
@@ -150,6 +155,9 @@ if __name__ == "__main__":
                 sistema.rm(partes[1].capitalize())
             else:
                 print('Use rm <nome do arquivo que quer excluir>')
+
+        elif comando == 'arvore':
+            sistema.arvore()
 
         elif comando == 'exit':
             print('Saindo do sistema')
