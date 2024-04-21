@@ -14,7 +14,7 @@ class GUI:
         self.treeview.heading("#0", text="Tree")
 
         self.add_root_button = tk.Button(
-            self.window, text="Add Root Node", command=self.add_root_node)
+        self.window, text="Add Root Node", command=self.add_root_node)
         self.add_root_button.pack()
 
         self.remove_button = tk.Button(
@@ -35,6 +35,7 @@ class GUI:
     def add_root_node(self):
         content = simpledialog.askstring(
             "Add Root Node", "Enter the content for the new root node:")
+
         if content:
             new_node = Node_diretorio(content)
             self.add_node("", new_node)
