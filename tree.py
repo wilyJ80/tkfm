@@ -111,72 +111,60 @@ class sistema_arquivo:
         print(self.atual.nome, '/')
         self.print_arvore(self.atual)
 
+    def run(self, sistema):
+        print('Digite help para ver os comandos.')
+        while True:
+            comando = input('$ {} '.format(sistema.atual.nome))
+            if comando == 'ls':
+                sistema.ls()
 
-# Criando pasta mas mudar para outro arquivo para organizar
-sistema = sistema_arquivo()
-docs = Node_diretorio('Documentos')
-img = Node_diretorio('Imagens')
-sistema.raiz.sub_diretorios.extend([docs, img])
+            elif comando.startswith('cd'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.cd(partes[1].capitalize())
+                else:
+                    print('Uso: cd <diretorio>')
 
-# Criando arquivos
-docs.arquivos = ['doc1.txt', 'doc2.txt']
-img.arquivos = ['img.txt', 'img2.txt']
+            elif comando.startswith('mkdir'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.mkdir(partes[1].capitalize())
+                else:
+                    print('Uso: mkdir <nome da pasta>')
 
+            elif comando.startswith('touch'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.touch(partes[1].capitalize())
+                else:
+                    print('Uso: touch <nome do arquivo>')
 
-if __name__ == "__main__":
-    print('Digite help para ver os comandos.')
-    while True:
-        comando = input('$ {} '.format(sistema.atual.nome))
-        if comando == 'ls':
-            sistema.ls()
+            elif comando.startswith('mv'):
+                partes = comando.split()
+                if len(partes) == 3:
+                    sistema.mv(partes[1].capitalize(), partes[2].capitalize())
+                    pass
+                else:
+                    print(
+                        'Use mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
 
-        elif comando.startswith('cd'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.cd(partes[1].capitalize())
+            elif comando.startswith('rm'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.rm(partes[1].capitalize())
+                else:
+                    print('Use rm <nome do arquivo que quer excluir>')
+
+            elif comando == 'tree':
+                sistema.arvore()
+
+            elif comando == 'help':
+                print("Comandos:")
+                print("ls | cd | mkdir | touch | mv | rm | arvore | exit")
+
+            elif comando == 'exit':
+                print('Saindo do sistema')
+                break
+
             else:
-                print('Uso: cd <diretorio>')
-
-        elif comando.startswith('mkdir'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.mkdir(partes[1].capitalize())
-            else:
-                print('Uso: mkdir <nome da pasta>')
-
-        elif comando.startswith('touch'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.touch(partes[1].capitalize())
-            else:
-                print('Uso: touch <nome do arquivo>')
-
-        elif comando.startswith('mv'):
-            partes = comando.split()
-            if len(partes) == 3:
-                sistema.mv(partes[1].capitalize(), partes[2].capitalize())
                 pass
-            else:
-                print(
-                    'Use mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
-
-        elif comando.startswith('rm'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.rm(partes[1].capitalize())
-            else:
-                print('Use rm <nome do arquivo que quer excluir>')
-
-        elif comando == 'tree':
-            sistema.arvore()
-
-        elif comando == 'help':
-            print("Comandos:")
-            print("ls | cd | mkdir | touch | mv | rm | arvore | exit")
-
-        elif comando == 'exit':
-            print('Saindo do sistema')
-            break
-
-        else:
-            pass
