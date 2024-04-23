@@ -117,6 +117,7 @@ img.arquivos = ['img.txt', 'img2.txt']
 
 
 if __name__ == "__main__":
+    print('Digite help para ver os comandos.')
     while True:
         comando = input('$ {} '.format(sistema.atual.nome))
         if comando == 'ls':
@@ -161,6 +162,10 @@ if __name__ == "__main__":
 
         elif comando == 'arvore':
             sistema.arvore()
+
+        elif comando == 'help':
+            print("Comandos:")
+            print("ls | cd | mkdir | touch | mv | rm | arvore | exit")
 
         elif comando == 'exit':
             print('Saindo do sistema')
