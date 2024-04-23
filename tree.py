@@ -100,9 +100,16 @@ class sistema_arquivo:
         if not encontrado:
             print('Arquivo não encontrado: {}'.format(nome_arquivo))
 
+    def print_arvore(self, node, prefix=""):
+        for subdir in node.sub_diretorios:
+            print(prefix + "|-- " + subdir.nome + "/")
+            self.print_arvore(subdir, prefix + "|   ")
+        for arquivo in node.arquivos:
+            print(prefix + "|-- " + arquivo)
+
     def arvore(self):
-        print(self.raiz.nome, '/')
-        self.print_arvore(self.raiz)
+        print(self.atual.nome, '/')
+        self.print_arvore(self.atual)
 
 
 # Criando pasta mas mudar para outro arquivo para organizar
@@ -160,7 +167,7 @@ if __name__ == "__main__":
             else:
                 print('Use rm <nome do arquivo que quer excluir>')
 
-        elif comando == 'arvore':
+        elif comando == 'tree':
             sistema.arvore()
 
         elif comando == 'help':
