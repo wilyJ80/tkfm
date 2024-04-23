@@ -49,21 +49,26 @@ class sistema_arquivo:
                 self.historico.pop()
                 self.mover_diretorio(nivel - 1)
             else:
-                print("Já está no diretório raiz")            
+                print("Já está no diretório raiz")
 
-    def mkdir(self,nome_pasta):
-        caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
+    def mkdir(self, nome_pasta):
+        caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*',
+                             '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
         if any(caracter in nome_pasta for caracter in caracter_especial):
-            print('Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
+            print(
+                'Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
         elif nome_pasta:
             novo_diretorio = Node_diretorio(nome_pasta)
             self.atual.sub_diretorios.append(novo_diretorio)
-            print('Pasta {} criada com sucesso em {}'.format(nome_pasta, self.atual.nome))
+            print('Pasta {} criada com sucesso em {}'.format(
+                nome_pasta, self.atual.nome))
 
-    def touch(self,nome_arquivo):
-        caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '<', '>', '/', '?']
+    def touch(self, nome_arquivo):
+        caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*',
+                             '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '<', '>', '/', '?']
         if any(caracter in nome_arquivo for caracter in caracter_especial):
-            print('Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
+            print(
+                'Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
         else:
             if nome_arquivo:
                 self.atual.arquivos.append(nome_arquivo)
@@ -76,7 +81,8 @@ class sistema_arquivo:
         for i, arquivo in enumerate(self.atual.arquivos):
             if arquivo == nome_origem:
                 self.atual.arquivos[i] = novo_nome
-                print('Arquivo {} renomeado para {}'.format(nome_origem, novo_nome))
+                print('Arquivo {} renomeado para {}'.format(
+                    nome_origem, novo_nome))
                 encontrado = True
                 break
         if not encontrado:
@@ -93,13 +99,16 @@ class sistema_arquivo:
         if not encontrado:
             print('Arquivo não encontrado: {}'.format(nome_arquivo))
 
+    def print_arvore(self, node, prefix=""):
+        for subdir in node.sub_diretorios:
+            print(prefix + "|-- " + subdir.nome + "/")
+            self.print_arvore(subdir, prefix + "|   ")
+        for arquivo in node.arquivos:
+            print(prefix + "|-- " + arquivo)
+
     def arvore(self):
-        print(self.raiz.nome, '/')
-        self.print_arvore(self.raiz)
-    
-
-
-
+        print(self.atual.nome, '/')
+        self.print_arvore(self.atual)
 
 
 # Criando pasta mas mudar para outro arquivo para organizar
@@ -113,8 +122,8 @@ docs.arquivos = ['doc1.txt', 'doc2.txt']
 img.arquivos = ['img.txt', 'img2.txt']
 
 
-
 if __name__ == "__main__":
+    print('Digite help para ver os comandos.')
     while True:
         comando = input('$ {} '.format(sistema.atual.nome))
         if comando == 'ls':
@@ -133,7 +142,7 @@ if __name__ == "__main__":
                 sistema.mkdir(partes[1].capitalize())
             else:
                 print('Uso: mkdir <nome da pasta>')
-        
+
         elif comando.startswith('touch'):
             partes = comando.split()
             if len(partes) == 2:
@@ -147,7 +156,8 @@ if __name__ == "__main__":
                 sistema.mv(partes[1].capitalize(), partes[2].capitalize())
                 pass
             else:
-                print('Use mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
+                print(
+                    'Use mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
 
         elif comando.startswith('rm'):
             partes = comando.split()
@@ -156,8 +166,12 @@ if __name__ == "__main__":
             else:
                 print('Use rm <nome do arquivo que quer excluir>')
 
-        elif comando == 'arvore':
+        elif comando == 'tree':
             sistema.arvore()
+
+        elif comando == 'help':
+            print("Comandos:")
+            print("ls | cd | mkdir | touch | mv | rm | tree | exit")
 
         elif comando == 'exit':
             print('Saindo do sistema')
