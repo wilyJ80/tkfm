@@ -1,5 +1,10 @@
 # Por enquanto: o main é o arquivo `tree.py`
 
+# Reta final
+- [ ] Consertar outputs na interface gráfica
+- [ ] Arrumar layout
+- [ ] SQLite3
+
 # Continuar
 
 - [x] Gerar árvore binária aleatória navegável com a interface gráfica em forma de árvore para feedback inicial com o professor.
