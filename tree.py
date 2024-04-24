@@ -1,5 +1,6 @@
 from collections import deque
 
+
 class Node_diretorio:
     def __init__(self, nome):
         self.nome = nome
@@ -65,17 +66,22 @@ class sistema_arquivo:
         função para criar pasta no diretorio atual ou especificando um caminho
         """
         if nivel == 2:
-            caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*','(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
+            caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*',
+                                 '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
             if any(caracter in nome_pasta for caracter in caracter_especial):
-                print('Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
+                print(
+                    'Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
             elif nome_pasta:
                 novo_diretorio = Node_diretorio(nome_pasta)
                 self.atual.sub_diretorios.append(novo_diretorio)
-                print('Pasta {} criada com sucesso em {}'.format(nome_pasta, self.atual.nome))
+                print('Pasta {} criada com sucesso em {}'.format(
+                    nome_pasta, self.atual.nome))
         elif nivel == 3:
-            caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*','(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
+            caracter_especial = ['!', '@', '#', '$', '%', '^', '&', '*',
+                                 '(', ')', '+', '-', '=', '{', '}', '[', ']', '|', ';', ':', "'", '"', ',', '.', '<', '>', '/', '?']
             if any(caracter in nome_pasta for caracter in caracter_especial):
-                print('Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
+                print(
+                    'Nome de pasta não pode conter caracteres especiais. Exemplo: ! @ # / : >')
             elif dir:
                 partes = dir.split('/')
                 diretorio_atual = self.raiz
@@ -91,7 +97,8 @@ class sistema_arquivo:
                         return
                 novo_diretorio = Node_diretorio(nome_pasta)
                 diretorio_atual.sub_diretorios.append(novo_diretorio)
-                print('Pasta {} criada com sucesso em {}'.format(nome_pasta, diretorio_atual.nome))
+                print('Pasta {} criada com sucesso em {}'.format(
+                    nome_pasta, diretorio_atual.nome))
             else:
                 print('Caminho não especificado')
 
@@ -154,74 +161,64 @@ class sistema_arquivo:
         print(self.atual.nome, '/')
         self.print_tree(self.atual)
 
+    def run(self, sistema):
+        print('Digite help para ver os comandos.')
+        while True:
+            comando = input('$ {} '.format(sistema.atual.nome))
+            if comando == 'ls':
+                sistema.ls()
 
-# Criando pasta mas mudar para outro arquivo para organizar
-sistema = sistema_arquivo()
-docs = Node_diretorio('Documentos')
-img = Node_diretorio('Imagens')
-sistema.raiz.sub_diretorios.extend([docs, img])
+            elif comando.startswith('cd'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.cd(partes[1].capitalize())
+                else:
+                    print('Uso: cd <diretorio>')
 
-# Criando arquivos
-docs.arquivos = ['doc1.txt', 'doc2.txt']
-img.arquivos = ['img.txt', 'img2.txt']
+            elif comando.startswith('mkdir'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.mkdir(partes[1].capitalize(), None, 2)
+                elif len(partes) == 3:
+                    sistema.mkdir(partes[1].capitalize(),
+                                  partes[2].capitalize(), 3)
+                else:
+                    print(
+                        'Uso: mkdir <nome da pasta> ou mkdir <nome da pasta> <nome do diretorio que quer inserir>')
 
+            elif comando.startswith('touch'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.touch(partes[1].capitalize())
+                else:
+                    print('Uso: touch <nome do arquivo>')
 
-if __name__ == "__main__":
-    print('Digite help para ver os comandos.')
-    while True:
-        comando = input('$ {} '.format(sistema.atual.nome))
-        if comando == 'ls':
-            sistema.ls()
+            elif comando.startswith('mv'):
+                partes = comando.split()
+                if len(partes) == 3:
+                    sistema.mv(partes[1].capitalize(), partes[2].capitalize())
+                    pass
+                else:
+                    print(
+                        'Uso: mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
 
-        elif comando.startswith('cd'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.cd(partes[1].capitalize())
+            elif comando.startswith('rm'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.rm(partes[1].capitalize())
+                else:
+                    print('Uso: rm <nome do arquivo que quer excluir>')
+
+            elif comando == 'tree':
+                sistema.tree()
+
+            elif comando == 'help':
+                print("Comandos:")
+                print("ls | cd | mkdir | touch | mv | rm | tree | exit")
+
+            elif comando == 'exit':
+                print('Saindo do sistema')
+                break
+
             else:
-                print('Uso: cd <diretorio>')
-
-        elif comando.startswith('mkdir'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.mkdir(partes[1].capitalize(),None,2)
-            elif len(partes) == 3:
-                sistema.mkdir(partes[1].capitalize(),partes[2].capitalize(),3)
-            else:
-                print('Uso: mkdir <nome da pasta> ou mkdir <nome da pasta> <nome do diretorio que quer inserir>')
-
-        elif comando.startswith('touch'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.touch(partes[1].capitalize())
-            else:
-                print('Uso: touch <nome do arquivo>')
-
-        elif comando.startswith('mv'):
-            partes = comando.split()
-            if len(partes) == 3:
-                sistema.mv(partes[1].capitalize(), partes[2].capitalize())
                 pass
-            else:
-                print(
-                    'Uso: mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
-
-        elif comando.startswith('rm'):
-            partes = comando.split()
-            if len(partes) == 2:
-                sistema.rm(partes[1].capitalize())
-            else:
-                print('Uso: rm <nome do arquivo que quer excluir>')
-
-        elif comando == 'tree':
-            sistema.tree()
-
-        elif comando == 'help':
-            print("Comandos:")
-            print("ls | cd | mkdir | touch | mv | rm | tree | exit")
-
-        elif comando == 'exit':
-            print('Saindo do sistema')
-            break
-
-        else:
-            pass
