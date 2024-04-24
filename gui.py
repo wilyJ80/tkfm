@@ -1,31 +1,58 @@
 import tkinter as tk
 from tkinter import ttk
-from tree import Node_diretorio, sistema_arquivo
+from tree import sistema_arquivo
 
 
 class GUI:
-    def __init__(self, sistema_arquivo):
+    def __init__(self, sistema):
+        self.sistema = sistema
+
         self.window = tk.Tk()
         self.window.title("Visualizer")
-        self.window.geometry('250x250')
+        self.window.geometry('800x800')
 
         self.treeview = ttk.Treeview(self.window)
         self.treeview.heading('#0', text="Tree")
+        self.treeview.pack(side="left", fill="both", expand=True)
 
-    def run(self):
-        self.treeview.pack()
-        self.treeview.mainloop()
+        self.terminal_text = tk.Text(self.window, wrap="word")
+        self.terminal_text.pack(side="bottom", fill="both", expand=True)
 
-    def update(self, sistema_arquivo):
+        self.input_label = tk.Label(self.window, text="Command:")
+        self.input_label.pack(side="bottom", anchor="w")
+
+        self.input_entry = tk.Entry(self.window)
+        self.input_entry.pack(side="bottom", fill="x", expand=True)
+        self.input_entry.bind("<Return>", self.execute_command)
+
+    def execute_command(self, event=None):
+        command = self.input_entry.get()
+
+        output, should_exit = self.sistema.execute_command(command)
+        self.display_output(output)
+        self.input_entry.delete(0, tk.END)
+        if should_exit:
+            self.window.destroy()
+
+    def display_output(self, output):
+        self.terminal_text.insert(tk.END, output)
+        self.terminal_text.see(tk.END)
+
+    def update_treeview(self):
         self.treeview.delete(*self.treeview.get_children())
-        node = sistema_arquivo.atual
+        node = self.sistema.atual
         self.treeview.heading('#0', text=node.nome)
         for subdir in node.sub_diretorios:
             self.treeview.insert("", tk.END, text="/" + subdir.nome)
         for arquivo in node.arquivos:
             self.treeview.insert("", tk.END, text=arquivo)
 
+    def run(self):
+        self.update_treeview()
+        self.window.mainloop()
+
 
 if __name__ == "__main__":
-    gui = GUI(sistema_arquivo)
+    sistema = sistema_arquivo()
+    gui = GUI(sistema)
     gui.run()

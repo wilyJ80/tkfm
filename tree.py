@@ -148,77 +148,81 @@ class sistema_arquivo:
             print('Arquivo não encontrado: {}'.format(nome_arquivo))
 
     def print_tree(self, node, prefix=""):
-        """
-        função para printar toda arvore
-        """
+        result = ""
         for subdir in node.sub_diretorios:
-            print(prefix + "|-- " + subdir.nome + "/")
-            self.print_tree(subdir, prefix + "|   ")
+            result += prefix + "|-- " + subdir.nome + "/"
+            result += self.print_tree(subdir, prefix + "|   ")
         for arquivo in node.arquivos:
-            print(prefix + "|-- " + arquivo)
+            result += prefix + "|-- " + arquivo
+        return result
 
     def tree(self):
         print(self.atual.nome, '/')
         self.print_tree(self.atual)
 
-    def run(self, sistema):
-        print('Digite help para ver os comandos.')
-        while True:
-            comando = input('$ {} '.format(sistema.atual.nome))
-            if comando == 'ls':
-                sistema.ls()
+    def execute_command(self, comando):
+        output = []
 
-            elif comando.startswith('cd'):
-                partes = comando.split()
-                if len(partes) == 2:
-                    sistema.cd(partes[1].capitalize())
-                else:
-                    print('Uso: cd <diretorio>')
+        if comando == 'ls':
+            output.append('Conteúdo de ' + self.atual.nome)
+            for subdiretorio in self.atual.sub_diretorios:
+                output.append('{}/ (diretorio)'.format(subdiretorio.nome))
+            for arquivo in self.atual.arquivos:
+                output.append('arquivo: {}'.format(arquivo))
 
-            elif comando.startswith('mkdir'):
-                partes = comando.split()
-                if len(partes) == 2:
-                    sistema.mkdir(partes[1].capitalize(), None, 2)
-                elif len(partes) == 3:
-                    sistema.mkdir(partes[1].capitalize(),
-                                  partes[2].capitalize(), 3)
-                else:
-                    print(
-                        'Uso: mkdir <nome da pasta> ou mkdir <nome da pasta> <nome do diretorio que quer inserir>')
-
-            elif comando.startswith('touch'):
-                partes = comando.split()
-                if len(partes) == 2:
-                    sistema.touch(partes[1].capitalize())
-                else:
-                    print('Uso: touch <nome do arquivo>')
-
-            elif comando.startswith('mv'):
-                partes = comando.split()
-                if len(partes) == 3:
-                    sistema.mv(partes[1].capitalize(), partes[2].capitalize())
-                    pass
-                else:
-                    print(
-                        'Uso: mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
-
-            elif comando.startswith('rm'):
-                partes = comando.split()
-                if len(partes) == 2:
-                    sistema.rm(partes[1].capitalize())
-                else:
-                    print('Uso: rm <nome do arquivo que quer excluir>')
-
-            elif comando == 'tree':
-                sistema.tree()
-
-            elif comando == 'help':
-                print("Comandos:")
-                print("ls | cd | mkdir | touch | mv | rm | tree | exit")
-
-            elif comando == 'exit':
-                print('Saindo do sistema')
-                break
-
+        elif comando.startswith('cd'):
+            partes = comando.split()
+            if len(partes) == 2:
+                self.cd(partes[1].capitalize())
+                output.append('Mudou para diretório {}'.format(partes[1]))
             else:
-                pass
+                output.append('Uso: cd <diretorio>')
+
+        elif comando.startswith('mkdir'):
+            partes = comando.split()
+            if len(partes) == 2:
+                self.mkdir(partes[1].capitalize(), None, 2)
+            elif len(partes) == 3:
+                self.mkdir(partes[1].capitalize(),
+                           partes[2].capitalize(), 3)
+            else:
+                output.append('Uso: mkdir <nome da pasta>')
+
+        elif comando.startswith('touch'):
+            partes = comando.split()
+            if len(partes) == 2:
+                self.touch(partes[1].capitalize())
+            else:
+                output.append('Uso: touch <nome do arquivo>')
+
+        elif comando.startswith('mv'):
+            partes = comando.split()
+            if len(partes) == 3:
+                self.mv(partes[1].capitalize(),
+                        partes[2].capitalize())
+            else:
+                output.append(
+                    'Uso: mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
+
+        elif comando.startswith('rm'):
+            partes = comando.split()
+            if len(partes) == 2:
+                self.rm(partes[1].capitalize())
+            else:
+                output.append('Uso: rm <nome do arquivo que quer excluir>')
+
+        elif comando == 'tree':
+            output += self.print_tree(self.atual, '')
+
+        elif comando == 'help':
+            output.append("Comandos:")
+            output.append("ls | cd | mkdir | touch | mv | rm | tree | exit")
+
+        elif comando == 'exit':
+            output.append('Saindo do sistema')
+            return output, True
+
+        else:
+            pass
+
+        return "\n".join(output), False
