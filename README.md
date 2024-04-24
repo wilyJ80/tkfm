@@ -1,6 +1,6 @@
 # arquivos:
 - tree.py: biblioteca para funcoes
-- principal: código CLI
+- cli.py: código CLI
 - gui.py: código GUI
 
 # Reta final
