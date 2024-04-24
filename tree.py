@@ -212,7 +212,7 @@ class sistema_arquivo:
                 output.append('Uso: rm <nome do arquivo que quer excluir>')
 
         elif comando == 'tree':
-            output += self.print_tree(self.atual, '')
+            output.append(self.print_tree(self.atual, ''))
 
         elif comando == 'help':
             output.append("Comandos:")
