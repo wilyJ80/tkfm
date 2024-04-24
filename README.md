@@ -1,4 +1,4 @@
-# Por enquanto: o main é o arquivo `principal.py`
+# Por enquanto: o main é o arquivo `tree.py`
 
 # Continuar
 
