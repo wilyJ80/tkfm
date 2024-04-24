@@ -1,3 +1,4 @@
+# Por enquanto: o main é o arquivo `principal.py`
 
 # Continuar
 
