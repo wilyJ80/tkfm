@@ -1,4 +1,12 @@
-# Por enquanto: o main é o arquivo `principal.py`
+# arquivos:
+- tree.py: biblioteca para funcoes
+- cli.py: código CLI
+- gui.py: código GUI
+
+# Reta final
+- [ ] Consertar outputs na interface gráfica
+- [X] Arrumar layout
+- [ ] SQLite3
 
 # Continuar
 
