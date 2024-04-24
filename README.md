@@ -1,8 +1,11 @@
-# Por enquanto: o main é o arquivo `tree.py`
+# arquivos:
+- tree.py: biblioteca para funcoes
+- principal: código CLI
+- gui.py: código GUI
 
 # Reta final
 - [ ] Consertar outputs na interface gráfica
-- [ ] Arrumar layout
+- [X] Arrumar layout
 - [ ] SQLite3
 
 # Continuar

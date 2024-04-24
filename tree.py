@@ -226,3 +226,65 @@ class sistema_arquivo:
             pass
 
         return "\n".join(output), False
+
+    def run(self, sistema):
+        print('Digite help para ver os comandos.')
+        while True:
+            comando = input('$ {} '.format(sistema.atual.nome))
+            if comando == 'ls':
+                sistema.ls()
+
+            elif comando.startswith('cd'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.cd(partes[1].capitalize())
+                else:
+                    print('Uso: cd <diretorio>')
+
+            elif comando.startswith('mkdir'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.mkdir(partes[1].capitalize(), None, 2)
+                elif len(partes) == 3:
+                    sistema.mkdir(partes[1].capitalize(),
+                                  partes[2].capitalize(), 3)
+                else:
+                    print(
+                        'Uso: mkdir <nome da pasta> ou mkdir <nome da pasta> <nome do diretorio que quer inserir>')
+
+            elif comando.startswith('touch'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.touch(partes[1].capitalize())
+                else:
+                    print('Uso: touch <nome do arquivo>')
+
+            elif comando.startswith('mv'):
+                partes = comando.split()
+                if len(partes) == 3:
+                    sistema.mv(partes[1].capitalize(), partes[2].capitalize())
+                    pass
+                else:
+                    print(
+                        'Uso: mv <nome do arquivo que quer alterar>  <nome do novo arquivo>')
+
+            elif comando.startswith('rm'):
+                partes = comando.split()
+                if len(partes) == 2:
+                    sistema.rm(partes[1].capitalize())
+                else:
+                    print('Uso: rm <nome do arquivo que quer excluir>')
+
+            elif comando == 'tree':
+                sistema.tree()
+
+            elif comando == 'help':
+                print("Comandos:")
+                print("ls | cd | mkdir | touch | mv | rm | tree | exit")
+
+            elif comando == 'exit':
+                print('Saindo do sistema')
+                break
+
+            else:
+                pass
