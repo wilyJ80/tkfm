@@ -150,10 +150,10 @@ class sistema_arquivo:
     def print_tree(self, node, prefix=""):
         result = ""
         for subdir in node.sub_diretorios:
-            result += prefix + "|-- " + subdir.nome + "/"
+            result += prefix + "\n|-- " + subdir.nome + "/\n"
             result += self.print_tree(subdir, prefix + "|   ")
         for arquivo in node.arquivos:
-            result += prefix + "|-- " + arquivo
+            result += prefix + "|-- " + arquivo + "\n"
         return result
 
     def tree(self):
@@ -164,7 +164,7 @@ class sistema_arquivo:
         output = []
 
         if comando == 'ls':
-            output.append('Conteúdo de ' + self.atual.nome)
+            output.append('\nConteúdo de ' + self.atual.nome)
             for subdiretorio in self.atual.sub_diretorios:
                 output.append('{}/ (diretorio)'.format(subdiretorio.nome))
             for arquivo in self.atual.arquivos:
@@ -174,7 +174,7 @@ class sistema_arquivo:
             partes = comando.split()
             if len(partes) == 2:
                 self.cd(partes[1].capitalize())
-                output.append('Mudou para diretório {}'.format(partes[1]))
+                output.append('\nMudou para diretório {}'.format(partes[1]))
             else:
                 output.append('Uso: cd <diretorio>')
 
@@ -215,7 +215,7 @@ class sistema_arquivo:
             output.append(self.print_tree(self.atual, ''))
 
         elif comando == 'help':
-            output.append("Comandos:")
+            output.append("\nComandos:")
             output.append("ls | cd | mkdir | touch | mv | rm | tree | exit")
 
         elif comando == 'exit':
