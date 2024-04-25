@@ -1,6 +1,3 @@
-import sqlite3
-
-
 class Node_diretorio:
     def __init__(self, nome):
         self.nome = nome
@@ -10,63 +7,9 @@ class Node_diretorio:
 
 class sistema_arquivo:
     def __init__(self):
-        setup()
-        self.conn = sqlite3.connect('sistema_arquivos.db')
-
         self.raiz = Node_diretorio('/')
         self.atual = self.raiz
         self.historico = []
-
-    def save_to_database(self):
-        cursor = self.conn.cursor()
-        cursor.execute('DELETE FROM directories')
-        cursor.execute('DELETE FROM files')
-        self._save_directory(self.raiz, None, cursor)
-        self.conn.commit()
-
-    def _save_directory(self, directory, parent_id, cursor):
-        cursor.execute(
-            'INSERT INTO directories (name, parent_id) VALUES (?, ?)', (directory.nome, parent_id))
-        directory_id = cursor.lastrowid
-
-        for file in directory.arquivos:
-            cursor.execute(
-                'INSERT INTO files (name, directory_id) VALUES (?, ?)', (file, directory_id))
-
-        for subdirectory in directory.sub_diretorios:
-            self._save_directory(subdirectory, directory_id, cursor)
-
-    def load_from_database(self):
-        cursor = self.conn.cursor()
-        cursor.execute('SELECT * FROM directories')
-        rows = cursor.fetchall()
-        self.raiz = self._load_directory(rows, None, cursor)
-
-    def _load_directory(self, rows, parent_id, cursor):
-        directories = [row for row in rows if row[2] == parent_id]
-        directory_objects = []
-
-        for directory_row in directories:
-            directory = Node_diretorio(directory_row[1])
-            directory_objects.append(directory)
-
-            subdirectories = self._load_directory(
-                rows, directory_row[0], cursor)
-            directory.sub_diretorios.extend(subdirectories)
-
-            cursor.execute(
-                'SELECT name FROM files WHERE directory_id = ?', (directory_row[0],))
-            files = cursor.fetchall()
-            directory.arquivos.extend([file[0] for file in files])
-
-        return directory_objects
-
-    # Include other methods...
-
-    def close_connection(self):
-        self.conn.close()
-
-# Your other class and method definitions...
 
     def ls(self):
         """
